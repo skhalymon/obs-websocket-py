@@ -56,9 +56,9 @@ class obsws:
 
         :return: Nothing
         """
-        if not host is None:
+        if host is not None:
             self.host = host
-        if not port is None:
+        if port is not None:
             self.port = port
 
         try:
@@ -99,7 +99,7 @@ class obsws:
         except socket.error as e:
             pass
 
-        if not self.thread_recv is None:
+        if self.thread_recv is not None:
             self.thread_recv.join()
             self.thread_recv = None
 
@@ -111,7 +111,7 @@ class obsws:
 
         if result['status'] != 'ok':
             raise exceptions.ConnectionFailure(result['error'])
-            
+
         if result.get('authRequired'):
             secret = base64.b64encode(hashlib.sha256((password + result['salt']).encode('utf-8')).digest())
             auth = base64.b64encode(hashlib.sha256(secret + result['challenge'].encode('utf-8')).digest()).decode('utf-8')
@@ -122,10 +122,9 @@ class obsws:
             result = json.loads(self.ws.recv())
             if result['status'] != 'ok':
                 raise exceptions.ConnectionFailure(result['error'])
-        pass
 
     def _run_threads(self):
-        if not self.thread_recv is None:
+        if self.thread_recv is not None:
             self.thread_recv.running = False
         self.thread_recv = RecvThread(self)
         self.thread_recv.daemon = True

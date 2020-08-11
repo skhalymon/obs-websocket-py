@@ -24,7 +24,7 @@ def generate_classes():
     print("Download OK. Generating python files...")
 
     for event in ["requests","events"]:
-        if not event in data:
+        if event not in data:
             raise Exception("Missing %s in data."%(event))
         with open("obswebsocket/{}.py".format(event),"w") as file:
 
@@ -91,7 +91,7 @@ def generate_classes():
                         file.write("        return self.datain[\"{}\"]\n".format(r))
                         file.write("\n")
                     file.write("\n")
-                    
+
     print("API classes have been generated.")
 
 
